@@ -101,6 +101,7 @@ public class Hangman {
                 secretWordCreation();
                 secretWordMaskCreation();
                 checkLetter();
+                break;
             case ("2"):
                 System.out.println("Игра окончена");
                 break;
