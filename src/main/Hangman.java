@@ -1,30 +1,31 @@
+package main;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class Hangman {
-    static List<String> list = new ArrayList<>();
-    static String secretWord;
-    static char[] secretWordMask;
-    static char letter;
-    static int wrongTriesNumber;
-    static List<Character> usedLetters = new ArrayList<>();
+    private static List<String> list = new ArrayList<>();
+    private static String secretWord;
+    private static char[] secretWordMask;
+    private static char letter;
+    private static int wrongTriesNumber;
+    private static List<Character> usedLetters = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("\nПриветствуем Вас в игре \"Виселица\"!");
-        menu();
+        startGame();
     }
 
-    static void secretWordCreation() {
+    private static void createSecretWord() {
         Random random = new Random();
         {
-            try (FileReader reader = new FileReader("glossary.txt"); Scanner scanner = new Scanner(reader)) {
+            try (FileReader reader = new FileReader("src/resources/glossary.txt"); Scanner scanner = new Scanner(reader)) {
                 while (scanner.hasNextLine()) {
                     list.add(scanner.nextLine());
                 }
                 secretWord = list.get(random.nextInt(list.size())).toUpperCase();
-                //System.out.println(secretWord); //Раскомментировать, если нужно перед началом игры узнать слова
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -33,34 +34,48 @@ public class Hangman {
         }
     }
 
-    static void secretWordMaskCreation() {
+    private static void createSecretWordMask() {
         secretWordMask = secretWord.toCharArray();
         Arrays.fill(secretWordMask, '*');
         System.out.println(secretWordMask);
     }
 
-    static void enteringLetter() {
+    private static void getLetter() {
         System.out.println("Введите одну букву (кириллица)");
         Scanner scanner = new Scanner(System.in);
-        letter = scanner.next().charAt(0);
-        if (Character.UnicodeBlock.of(letter).equals(Character.UnicodeBlock.CYRILLIC)) { //Проверка, что вводимый символ является кириллицей
+        String scannerInput = scanner.next();
+        if (scannerInput.length() != 1) {
+            System.out.println("Введите ТОЛЬКО одну букву (кириллица)!");
+            getLetter();
+        } else {
+            letter = scannerInput.charAt(0);
+        }
+    }
+
+    private static boolean isCyrillic(char symbol) {
+        return Character.UnicodeBlock.of(symbol).equals(Character.UnicodeBlock.CYRILLIC);
+    }
+
+    private static void checkLetter() {
+        if (isCyrillic(letter)) {
             if (!usedLetters.contains(letter)) {
                 usedLetters.add(letter);
                 System.out.println("Вы ввели букву: " + String.valueOf(letter).toUpperCase());
             } else {
                 System.out.println("Такая буква уже была, введите другую.");
-                enteringLetter();
+                getLetter();
             }
         } else {
             System.out.println("Ошибка ввода! Введенный символ не является кириллицей");
-            enteringLetter();
+            getLetter();
         }
     }
 
-    static void checkLetter() {
+    private static void playGame() {
         if (wrongTriesNumber < 6) {
             if (new String(secretWordMask).contains("*")) {
-                enteringLetter();
+                getLetter();
+                checkLetter();
                 System.out.println("Вы уже использовали буквы:\n" + usedLetters);
                 if (secretWord.contains(String.valueOf(letter).toUpperCase())) {
                     for (int i = 0; i < secretWordMask.length; i++) {
@@ -69,27 +84,26 @@ public class Hangman {
                         }
                     }
                     System.out.println("\n" + new String(secretWordMask).toUpperCase());
-                    checkLetter();
+                    playGame();
                 } else {
                     wrongTriesNumber++;
-                    drawHangman(wrongTriesNumber);
+                    Graphics.drawHangman(wrongTriesNumber);
                     System.out.println("Ошибка: " + wrongTriesNumber + " из 6!");
                     System.out.println(new String(secretWordMask).toUpperCase());
-                    checkLetter();
+                    playGame();
                 }
             } else {
                 System.out.println("Верно! Вы отгадали слово!");
                 System.out.println("Хотите сыграть еще?");
-                menu();
+                startGame();
             }
-        }
-        else {
+        } else {
             System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
-            menu();
+            startGame();
         }
     }
 
-    static void menu() {
+    private static void startGame() {
         System.out.println();
         System.out.println("Для продолжения ведите цифру:\n1 - Новая игра\n2 - Выход из игры");
         Scanner scanner = new Scanner(System.in);
@@ -98,68 +112,17 @@ public class Hangman {
             case ("1"):
                 usedLetters.clear();
                 wrongTriesNumber = 0;
-                secretWordCreation();
-                secretWordMaskCreation();
-                checkLetter();
+                createSecretWord();
+                createSecretWordMask();
+                Graphics.drawHangman(wrongTriesNumber);
+                playGame();
                 break;
             case ("2"):
                 System.out.println("Игра окончена");
                 break;
             default:
                 System.out.println("Введите 1 или 2!");
-                menu();
-        }
-    }
-
-    static void drawHangman(int wrongTriesNumber) {
-        switch (wrongTriesNumber) {
-            case (1):
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                break;
-            case (2):
-                System.out.println("_________");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                break;
-            case (3):
-                System.out.println("_________");
-                System.out.println("|       |");
-                System.out.println("|       O");
-                System.out.println("|");
-                System.out.println("|");
-                System.out.println("|");
-                break;
-            case (4):
-                System.out.println("_________");
-                System.out.println("|       |");
-                System.out.println("|       O");
-                System.out.println("|       |");
-                System.out.println("|");
-                System.out.println("|");
-                break;
-            case (5):
-                System.out.println("_________");
-                System.out.println("|       |");
-                System.out.println("|       O");
-                System.out.println("|      /|\\");
-                System.out.println("|");
-                System.out.println("|");
-                break;
-            case (6):
-                System.out.println("_________");
-                System.out.println("|       |");
-                System.out.println("|       O");
-                System.out.println("|      /|\\");
-                System.out.println("|      /-\\");
-                System.out.println("|");
-                break;
+                startGame();
         }
     }
 }
