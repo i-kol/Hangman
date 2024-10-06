@@ -60,7 +60,7 @@ public class Graphics {
                 System.out.println("|");
                 break;
             default:
-                throw new IllegalArgumentException("Так не пойдет!");
+                throw new IllegalArgumentException("Something broke!");
         }
     }
 }

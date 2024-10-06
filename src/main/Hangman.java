@@ -41,6 +41,7 @@ public class Hangman {
     }
 
     private static void getLetter() {
+        char enteredLetter;
         System.out.println("Введите одну букву (кириллица)");
         Scanner scanner = new Scanner(System.in);
         String scannerInput = scanner.next();
@@ -48,7 +49,8 @@ public class Hangman {
             System.out.println("Введите ТОЛЬКО одну букву (кириллица)!");
             getLetter();
         } else {
-            letter = scannerInput.charAt(0);
+            enteredLetter = scannerInput.charAt(0);
+            letter = Character.toUpperCase(enteredLetter);
         }
     }
 
@@ -60,7 +62,7 @@ public class Hangman {
         if (isCyrillic(letter)) {
             if (!usedLetters.contains(letter)) {
                 usedLetters.add(letter);
-                System.out.println("Вы ввели букву: " + String.valueOf(letter).toUpperCase());
+                System.out.println("Вы ввели букву: " + letter);
             } else {
                 System.out.println("Такая буква уже была, введите другую.");
                 getLetter();
