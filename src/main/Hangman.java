@@ -1,83 +1,70 @@
 package main;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import static main.LetterCheck.checkLetter;
+import static main.Menu.startGame;
+
 public class Hangman {
-    private static List<String> list = new ArrayList<>();
+
     private static String secretWord;
     private static char[] secretWordMask;
     private static char letter;
-    private static int wrongTriesNumber;
-    private static List<Character> usedLetters = new ArrayList<>();
+    static int wrongTriesNumber;
+    static List<Character> usedLetters = new ArrayList<>();
+    private static final int MAX_ERRORS_NUMBER = 6;
 
     public static void main(String[] args) {
         System.out.println("\nПриветствуем Вас в игре \"Виселица\"!");
         startGame();
     }
 
-    private static void createSecretWord() {
+    static void getSecretWord() {
+        List<String> list = new ArrayList<>();
         Random random = new Random();
+
         {
             try (FileReader reader = new FileReader("src/resources/glossary.txt"); Scanner scanner = new Scanner(reader)) {
                 while (scanner.hasNextLine()) {
                     list.add(scanner.nextLine());
                 }
+
                 secretWord = list.get(random.nextInt(list.size())).toUpperCase();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private static void createSecretWordMask() {
+    static void createSecretWordMask() {
         secretWordMask = secretWord.toCharArray();
         Arrays.fill(secretWordMask, '*');
         System.out.println(secretWordMask);
     }
 
-    private static void getLetter() {
+    static void getLetter() {
         char enteredLetter;
-        System.out.println("Введите одну букву (кириллица)");
+
+        System.out.println("Введите букву (кириллица)");
+
         Scanner scanner = new Scanner(System.in);
+
         String scannerInput = scanner.next();
-        if (scannerInput.length() != 1) {
-            System.out.println("Введите ТОЛЬКО одну букву (кириллица)!");
-            getLetter();
-        } else {
-            enteredLetter = scannerInput.charAt(0);
-            letter = Character.toUpperCase(enteredLetter);
-        }
+        enteredLetter = scannerInput.charAt(0);
+        letter = Character.toUpperCase(enteredLetter);
+
+        checkLetter(scannerInput, letter);
     }
 
-    private static boolean isCyrillic(char symbol) {
-        return Character.UnicodeBlock.of(symbol).equals(Character.UnicodeBlock.CYRILLIC);
-    }
-
-    private static void checkLetter() {
-        if (isCyrillic(letter)) {
-            if (!usedLetters.contains(letter)) {
-                usedLetters.add(letter);
-                System.out.println("Вы ввели букву: " + letter);
-            } else {
-                System.out.println("Такая буква уже была, введите другую.");
-                getLetter();
-            }
-        } else {
-            System.out.println("Ошибка ввода! Введенный символ не является кириллицей");
-            getLetter();
-        }
-    }
-
-    private static void playGame() {
-        if (wrongTriesNumber < 6) {
+    static void playGame() {
+        if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
             if (new String(secretWordMask).contains("*")) {
                 getLetter();
-                checkLetter();
+                usedLetters.add(letter);
+                System.out.println("Вы ввели букву: " + letter);
                 System.out.println("Вы уже использовали буквы:\n" + usedLetters);
                 if (secretWord.contains(String.valueOf(letter).toUpperCase())) {
                     for (int i = 0; i < secretWordMask.length; i++) {
@@ -102,29 +89,6 @@ public class Hangman {
         } else {
             System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
             startGame();
-        }
-    }
-
-    private static void startGame() {
-        System.out.println();
-        System.out.println("Для продолжения ведите цифру:\n1 - Новая игра\n2 - Выход из игры");
-        Scanner scanner = new Scanner(System.in);
-        String option = scanner.next();
-        switch (option) {
-            case ("1"):
-                usedLetters.clear();
-                wrongTriesNumber = 0;
-                createSecretWord();
-                createSecretWordMask();
-                Graphics.drawHangman(wrongTriesNumber);
-                playGame();
-                break;
-            case ("2"):
-                System.out.println("Игра окончена");
-                break;
-            default:
-                System.out.println("Введите 1 или 2!");
-                startGame();
         }
     }
 }
