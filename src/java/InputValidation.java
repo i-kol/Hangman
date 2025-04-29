@@ -1,9 +1,9 @@
-package main;
+package java;
 
-import static main.Hangman.getLetter;
-import static main.Hangman.usedLetters;
+import static java.Main.getLetter;
+import static java.Main.usedLetters;
 
-public class LetterCheck {
+public class InputValidation {
     static void checkLetter(String scannerInput, char symbol) {
         checkEnteredLettersNumber(scannerInput);
         checkLanguage(symbol);

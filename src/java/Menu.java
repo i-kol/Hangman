@@ -1,8 +1,8 @@
-package main;
+package java;
 
 import java.util.Scanner;
 
-import static main.Hangman.*;
+import static java.Main.*;
 
 public class Menu {
     static void startGame() {
@@ -17,7 +17,7 @@ public class Menu {
                 getSecretWord();
                 createSecretWordMask();
                 Graphics.drawHangman(wrongTriesNumber);
-                playGame();
+                checkErrorsNumber();
                 break;
             case ("2"):
                 System.out.println("Игра окончена");

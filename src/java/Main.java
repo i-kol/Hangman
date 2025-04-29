@@ -1,17 +1,18 @@
-package main;
+package java;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static main.LetterCheck.checkLetter;
-import static main.Menu.startGame;
+import static java.InputValidation.checkLetter;
+import static java.LetterChecks.checkSecretWordSolved;
+import static java.Menu.startGame;
 
-public class Hangman {
+public class Main {
 
-    private static String secretWord;
-    private static char[] secretWordMask;
-    private static char letter;
+    static String secretWord;
+    static char[] secretWordMask;
+    static char letter;
     static int wrongTriesNumber;
     static List<Character> usedLetters = new ArrayList<>();
     private static final int MAX_ERRORS_NUMBER = 6;
@@ -34,7 +35,7 @@ public class Hangman {
                 secretWord = list.get(random.nextInt(list.size())).toUpperCase();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -59,36 +60,14 @@ public class Hangman {
         checkLetter(scannerInput, letter);
     }
 
-    static void playGame() {
+    static void checkErrorsNumber() {
         if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
-            if (new String(secretWordMask).contains("*")) {
-                getLetter();
-                usedLetters.add(letter);
-                System.out.println("Вы ввели букву: " + letter);
-                System.out.println("Вы уже использовали буквы:\n" + usedLetters);
-                if (secretWord.contains(String.valueOf(letter).toUpperCase())) {
-                    for (int i = 0; i < secretWordMask.length; i++) {
-                        if (Character.toString(secretWord.charAt(i)).equalsIgnoreCase(String.valueOf(letter))) {
-                            secretWordMask[i] = letter;
-                        }
-                    }
-                    System.out.println("\n" + new String(secretWordMask).toUpperCase());
-                    playGame();
-                } else {
-                    wrongTriesNumber++;
-                    Graphics.drawHangman(wrongTriesNumber);
-                    System.out.println("Ошибка: " + wrongTriesNumber + " из 6!");
-                    System.out.println(new String(secretWordMask).toUpperCase());
-                    playGame();
-                }
-            } else {
-                System.out.println("Верно! Вы отгадали слово!");
-                System.out.println("Хотите сыграть еще?");
-                startGame();
-            }
+            checkSecretWordSolved();
         } else {
             System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
             startGame();
         }
     }
+
+
 }
