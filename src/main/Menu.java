@@ -1,8 +1,9 @@
-package java;
+package main;
 
 import java.util.Scanner;
 
-import static java.Main.*;
+import static main.LetterChecks.checkErrorsNumber;
+import static main.Main.*;
 
 public class Menu {
     static void startGame() {

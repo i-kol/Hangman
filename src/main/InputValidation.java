@@ -1,7 +1,7 @@
-package java;
+package main;
 
-import static java.Main.getLetter;
-import static java.Main.usedLetters;
+import static main.Main.getLetter;
+import static main.Main.usedLetters;
 
 public class InputValidation {
     static void checkLetter(String scannerInput, char symbol) {

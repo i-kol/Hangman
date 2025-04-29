@@ -1,4 +1,4 @@
-package java;
+package main;
 
 public class Graphics {
     static void drawHangman(int wrongTriesNumber) {

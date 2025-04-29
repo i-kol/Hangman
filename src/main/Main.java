@@ -1,12 +1,11 @@
-package java;
+package main;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static java.InputValidation.checkLetter;
-import static java.LetterChecks.checkSecretWordSolved;
-import static java.Menu.startGame;
+import static main.InputValidation.checkLetter;
+import static main.Menu.startGame;
 
 public class Main {
 
@@ -15,7 +14,7 @@ public class Main {
     static char letter;
     static int wrongTriesNumber;
     static List<Character> usedLetters = new ArrayList<>();
-    private static final int MAX_ERRORS_NUMBER = 6;
+    static final int MAX_ERRORS_NUMBER = 6;
 
     public static void main(String[] args) {
         System.out.println("\nПриветствуем Вас в игре \"Виселица\"!");
@@ -59,15 +58,4 @@ public class Main {
 
         checkLetter(scannerInput, letter);
     }
-
-    static void checkErrorsNumber() {
-        if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
-            checkSecretWordSolved();
-        } else {
-            System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
-            startGame();
-        }
-    }
-
-
 }

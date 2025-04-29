@@ -1,9 +1,19 @@
-package java;
+package main;
 
-import static java.Main.*;
-import static java.Menu.startGame;
+import static main.Main.*;
+import static main.Menu.startGame;
 
 public class LetterChecks {
+
+    static void checkErrorsNumber() {
+        if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
+            checkSecretWordSolved();
+        } else {
+            System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
+            startGame();
+        }
+    }
+
     static void checkSecretWordSolved() {
 
         if (new String(secretWordMask).contains("*")) {
