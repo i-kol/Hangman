@@ -1,5 +1,6 @@
 package main;
 
+import static main.Input.getLetter;
 import static main.Main.*;
 import static main.Menu.startGame;
 
@@ -40,6 +41,7 @@ public class LetterChecks {
             wrongTriesNumber++;
             Graphics.drawHangman(wrongTriesNumber);
             System.out.println("Ошибка: " + wrongTriesNumber + " из 6!");
+
             System.out.println(new String(secretWordMask).toUpperCase());
         }
         checkErrorsNumber();

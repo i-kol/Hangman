@@ -3,7 +3,10 @@ package main;
 import java.util.Scanner;
 
 import static main.LetterChecks.checkErrorsNumber;
-import static main.Main.*;
+import static main.Main.usedLetters;
+import static main.Main.wrongTriesNumber;
+import static main.SecretWord.createSecretWordMask;
+import static main.SecretWord.getSecretWord;
 
 public class Menu {
     static void startGame() {

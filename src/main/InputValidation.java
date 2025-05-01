@@ -1,12 +1,12 @@
 package main;
 
-import static main.Main.getLetter;
+import static main.Input.getLetter;
 import static main.Main.usedLetters;
 
 public class InputValidation {
     static void checkLetter(String scannerInput, char symbol) {
         checkEnteredLettersNumber(scannerInput);
-        checkLanguage(symbol);
+        checkInputLanguage(symbol);
         checkUsedLetters(symbol);
     }
 
@@ -29,7 +29,7 @@ public class InputValidation {
         }
     }
 
-    private static void checkLanguage(char symbol) {
+    private static void checkInputLanguage(char symbol) {
         if (!isCyrillic(symbol)) {
             System.out.println("Ошибка ввода! Введенный символ не относится к кириллице");
             getLetter();
