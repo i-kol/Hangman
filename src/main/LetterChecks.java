@@ -17,7 +17,7 @@ public class LetterChecks {
 
     static void checkSecretWordSolved() {
 
-        if (new String(mask).contains("*")) {
+        if (mask.contains("*")) {
             getLetter();
             usedLetters.add(letter);
             System.out.println("Вы ввели букву: " + letter);
