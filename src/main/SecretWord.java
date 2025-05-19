@@ -2,10 +2,13 @@ package main;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
-import static main.Main.secretWord;
-import static main.Main.secretWordMask;
+import static main.Main.mask;
+import static main.Main.word;
 
 public class SecretWord {
     static void getSecretWord() {
@@ -18,7 +21,7 @@ public class SecretWord {
                     list.add(scanner.nextLine());
                 }
 
-                secretWord = list.get(random.nextInt(list.size())).toUpperCase();
+                word = list.get(random.nextInt(list.size())).toUpperCase();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -26,9 +29,9 @@ public class SecretWord {
         }
     }
 
-    static void createSecretWordMask() {
-        secretWordMask = secretWord.toCharArray();
-        Arrays.fill(secretWordMask, '*');
-        System.out.println(secretWordMask);
+    static String createSecretWordMask() {
+        mask = "*".repeat(word.length());
+        System.out.println(mask);
+        return mask;
     }
 }

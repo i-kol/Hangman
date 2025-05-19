@@ -7,8 +7,8 @@ import static main.Menu.startGame;
 
 public class Main {
 
-    static String secretWord;
-    static char[] secretWordMask;
+    static String word;
+    static String mask;
     static char letter;
     static int wrongTriesNumber;
     static List<Character> usedLetters = new ArrayList<>();

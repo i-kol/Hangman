@@ -10,14 +10,14 @@ public class LetterChecks {
         if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
             checkSecretWordSolved();
         } else {
-            System.out.println("\nВы проиграли :-(\nЭто было слово: " + secretWord + "\nХотите сыграть еще?");
+            System.out.println("\nВы проиграли :-(\nЭто было слово: " + word + "\nХотите сыграть еще?");
             startGame();
         }
     }
 
     static void checkSecretWordSolved() {
 
-        if (new String(secretWordMask).contains("*")) {
+        if (new String(mask).contains("*")) {
             getLetter();
             usedLetters.add(letter);
             System.out.println("Вы ввели букву: " + letter);
@@ -30,19 +30,22 @@ public class LetterChecks {
     }
 
     static void checkSecretWordContainLetter() {
-        if (secretWord.contains(String.valueOf(letter).toUpperCase())) {
-            for (int i = 0; i < secretWordMask.length; i++) {
-                if (Character.toString(secretWord.charAt(i)).equalsIgnoreCase(String.valueOf(letter))) {
-                    secretWordMask[i] = letter;
+
+        if (word.contains(String.valueOf(letter))) {
+            char[] maskArray = mask.toCharArray();
+            for (int i = 0; i < word.length(); i++) {
+                if (Character.toString(word.charAt(i)).equalsIgnoreCase(String.valueOf(letter))) {
+                    maskArray[i] = letter;
                 }
             }
-            System.out.println("\n" + new String(secretWordMask).toUpperCase());
+            mask = new String(maskArray);
+            System.out.println("\n" + mask);
         } else {
             wrongTriesNumber++;
             Graphics.drawHangman(wrongTriesNumber);
             System.out.println("Ошибка: " + wrongTriesNumber + " из 6!");
 
-            System.out.println(new String(secretWordMask).toUpperCase());
+            System.out.println(mask);
         }
         checkErrorsNumber();
     }
