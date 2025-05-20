@@ -1,45 +1,45 @@
 package main;
 
-import static main.Input.getLetter;
+import java.util.Scanner;
+
+import static main.Main.letter;
 import static main.Main.usedLetters;
 
 public class InputValidation {
-    static void checkLetter(String scannerInput, char symbol) {
-        checkEnteredLettersNumber(scannerInput);
-        checkInputLanguage(symbol);
-        checkUsedLetters(symbol);
-    }
 
-    private static boolean isOneLetterEntered(String scannerInput) {
-        return scannerInput.length() == 1;
-    }
+    static char getLetter() {
+        System.out.println("Введите букву (кириллица)");
 
-    private static boolean isCyrillic(char symbol) {
-        return Character.UnicodeBlock.of(symbol).equals(Character.UnicodeBlock.CYRILLIC);
-    }
+        Scanner scanner = new Scanner(System.in);
 
-    private static boolean isUsed(char symbol) {
-        return usedLetters.contains(symbol);
-    }
+        boolean isValid = false;
 
-    private static void checkEnteredLettersNumber(String scannerInput) {
-        if (!isOneLetterEntered(scannerInput)) {
-            System.out.println("Введите ТОЛЬКО ОДНУ букву!");
-            getLetter();
+        while (!isValid) {
+            String scannerInput = scanner.next();
+            letter = Character.toUpperCase(scannerInput.charAt(0));
+
+            if (scannerInput.length() != 1) {
+                System.out.println("Введите ТОЛЬКО ОДНУ букву!");
+                continue;
+            }
+
+            if (!isCyrillic(letter)) {
+                System.out.println("Ошибка ввода! Введенный символ не относится к кириллице");
+                continue;
+            }
+
+            if (usedLetters.contains(letter)) {
+                System.out.println("Ошибка ввода! Вы уже использовали эту букву");
+                continue;
+            }
+
+            isValid = true;
         }
+
+        return letter;
     }
 
-    private static void checkInputLanguage(char symbol) {
-        if (!isCyrillic(symbol)) {
-            System.out.println("Ошибка ввода! Введенный символ не относится к кириллице");
-            getLetter();
-        }
-    }
-
-    private static void checkUsedLetters(char symbol) {
-        if (isUsed(symbol)) {
-            System.out.println("Такая буква уже была!");
-            getLetter();
-        }
+    private static boolean isCyrillic(char letter) {
+        return Character.UnicodeBlock.of(letter).equals(Character.UnicodeBlock.CYRILLIC);
     }
 }

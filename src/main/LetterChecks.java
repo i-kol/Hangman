@@ -1,16 +1,23 @@
 package main;
 
-import static main.Input.getLetter;
+import static main.InputValidation.getLetter;
 import static main.Main.*;
 import static main.Menu.startGame;
 
 public class LetterChecks {
 
+//    boolean isWin = false;
+//    boolean isLose = false;
+//    do {
+//
+//    }
+//    while (!isWin && !isLose);
+
     static void checkErrorsNumber() {
         if (wrongTriesNumber < MAX_ERRORS_NUMBER) {
             checkSecretWordSolved();
         } else {
-            System.out.println("\nВы проиграли :-(\nЭто было слово: " + word + "\nХотите сыграть еще?");
+            System.out.printf("\nВы проиграли :-(\nЭто было слово: %s\nХотите сыграть еще?", word);
             startGame();
         }
     }
