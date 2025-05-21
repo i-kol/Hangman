@@ -2,21 +2,18 @@ package main;
 
 import java.util.Scanner;
 
-import static main.Main.letter;
-import static main.Main.usedLetters;
+import static main.GameLoop.usedLetters;
 
 public class InputValidation {
 
     static char getLetter() {
-        System.out.println("Введите букву (кириллица)");
+        while (true) {
+            System.out.println("Вы уже использовали буквы:\n" + usedLetters);
+            System.out.println("Введите букву (кириллица)");
 
-        Scanner scanner = new Scanner(System.in);
-
-        boolean isValid = false;
-
-        while (!isValid) {
+            Scanner scanner = new Scanner(System.in);
             String scannerInput = scanner.next();
-            letter = Character.toUpperCase(scannerInput.charAt(0));
+            char letter = Character.toUpperCase(scannerInput.charAt(0));
 
             if (scannerInput.length() != 1) {
                 System.out.println("Введите ТОЛЬКО ОДНУ букву!");
@@ -33,10 +30,8 @@ public class InputValidation {
                 continue;
             }
 
-            isValid = true;
+            return letter;
         }
-
-        return letter;
     }
 
     private static boolean isCyrillic(char letter) {
