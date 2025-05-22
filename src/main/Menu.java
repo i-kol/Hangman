@@ -6,21 +6,21 @@ import static main.GameLoop.runGameLoop;
 
 class Menu {
     static void startGame() {
-        System.out.println("\nДля продолжения нажмите:\n1 - Новая игра\n2 - Выход из игры");
         Scanner scanner = new Scanner(System.in);
-        String option = scanner.next();
+        boolean isGameActive = true;
 
-        switch (option) {
-            case ("1"):
+        do {
+            System.out.println("\nДля продолжения нажмите:\n1 - Новая игра\n2 - Выход из игры");
+            String userResponse = scanner.next();
+
+            if (userResponse.equals("1")) {
                 runGameLoop();
-                startGame();
-                break;
-            case ("2"):
+            } else if (userResponse.equals("2")) {
                 System.out.println("Игра окончена");
-                break;
-            default:
+                isGameActive = false;
+            } else {
                 System.out.println("Введите только 1 или 2!");
-                startGame();
-        }
+            }
+        } while (isGameActive);
     }
 }
