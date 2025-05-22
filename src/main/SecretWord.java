@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class SecretWord {
-    static String getSecretWord() {
+class SecretWord {
+    static String getWord() {
         List<String> list = new ArrayList<>();
         Random random = new Random();
         String word;
@@ -27,9 +27,20 @@ public class SecretWord {
         return word;
     }
 
-    static String createSecretWordMask(String word) {
+    static String createMask(String word) {
         String mask = "*".repeat(word.length());
         System.out.println(mask);
+        return mask;
+    }
+
+    static String openLetter(String word, String mask, char letter) {
+        char[] maskArray = mask.toCharArray();
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == letter) {
+                maskArray[i] = letter;
+            }
+        }
+        mask = new String(maskArray);
         return mask;
     }
 }

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import static main.GameLoop.usedLetters;
 
-public class InputValidation {
+class InputValidation {
 
     static char getLetter() {
         while (true) {
